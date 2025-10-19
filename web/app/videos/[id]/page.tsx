@@ -89,9 +89,3 @@ export default async function VideoDetailPage({ params }: Props) {
     </div>
   );
 }
-
-export async function generateStaticParams() {
-  await connectDB();
-  const videos = await Video.find().select('_id').limit(1000);
-  return videos.map((video) => ({ id: video._id.toString() }));
-}

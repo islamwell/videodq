@@ -1,12 +1,6 @@
 import mongoose from 'mongoose';
 
-const { MONGODB_URI } = process.env;
-
-if (!MONGODB_URI) {
-  throw new Error('MONGODB_URI environment variable is required');
-}
-
-const mongoUri = MONGODB_URI as string;
+const mongoUri = process.env.MONGODB_URI;
 
 interface MongooseCache {
   conn: typeof mongoose | null;
@@ -20,6 +14,10 @@ if (!globalWithMongoose.mongoose) {
 }
 
 export default async function connectDB(): Promise<typeof mongoose> {
+  if (!mongoUri) {
+    throw new Error('MONGODB_URI environment variable is required');
+  }
+
   const cached = globalWithMongoose.mongoose!;
 
   if (cached.conn) {

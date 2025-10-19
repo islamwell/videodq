@@ -2,6 +2,14 @@
 
 A full-stack video application for Islamic MP4 videos of lectures with dark/light mode support, featuring a centralized backend and multiple frontend platforms.
 
+## 📚 Documentation
+
+- **[README.md](README.md)** - You are here! Quick start and overview
+- **[TESTING.md](TESTING.md)** - Comprehensive testing and deployment guide
+- **[API.md](API.md)** - Complete API documentation with examples
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture and design decisions
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - How to contribute to the project
+
 ## Architecture
 
 - **Backend**: Node.js/Express API with MongoDB

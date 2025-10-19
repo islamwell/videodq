@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const apiBase = (process.env.NEXT_PUBLIC_API_URL ?? '').replace(/\/$/, '');
+const API_BASE_URL = apiBase ? `${apiBase}/api` : '/api';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -67,6 +68,17 @@ export const videoService = {
     const response = await apiClient.delete(`/videos/${id}`);
     return response.data;
   },
+};
+
+export const playlistService = {
+  getPlaylists: async () => {
+    const response = await apiClient.get('/playlists');
+    return response.data;
+  },
+  getPlaylistBySlug: async (slug: string) => {
+    const response = await apiClient.get(`/playlists/${slug}`);
+    return response.data;
+  }
 };
 
 export default apiClient;

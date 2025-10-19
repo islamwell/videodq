@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">NurulQuranVideo</string>
+    <string name="title_activity_main">NurulQuranVideo</string>
+    <string name="package_name">com.nurulquran.app</string>
+    <string name="custom_url_scheme">com.nurulquran.app</string>
+</resources>

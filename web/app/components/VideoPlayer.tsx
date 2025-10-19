@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
+import { Button, Block, BlockTitle } from 'framework7-react';
 
 interface VideoPlayerProps {
   videoUrl: string;
@@ -15,32 +16,23 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, thumbnailUrl
 
   const handlePlayPause = () => {
     if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play();
-      }
+      if (isPlaying) videoRef.current.pause(); else videoRef.current.play();
       setIsPlaying(!isPlaying);
     }
   };
 
   const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime);
-    }
+    if (videoRef.current) setCurrentTime(videoRef.current.currentTime);
   };
 
   const handleLoadedMetadata = () => {
-    if (videoRef.current) {
-      setDuration(videoRef.current.duration);
-    }
+    if (videoRef.current) setDuration(videoRef.current.duration);
   };
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const time = parseFloat(e.target.value);
+  const handleSeek = (value: number) => {
     if (videoRef.current) {
-      videoRef.current.currentTime = time;
-      setCurrentTime(time);
+      videoRef.current.currentTime = value;
+      setCurrentTime(value);
     }
   };
 
@@ -62,31 +54,17 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, thumbnailUrl
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
       />
-      
+
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={handlePlayPause}
-            className="text-white hover:text-blue-400 transition-colors"
-          >
-            {isPlaying ? (
-              <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
-              </svg>
-            ) : (
-              <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M5 3l12 7-12 7V3z" />
-              </svg>
-            )}
-          </button>
-          
+        <Block className="flex items-center gap-4">
+          <Button small fill onClick={handlePlayPause}>{isPlaying ? 'Pause' : 'Play'}</Button>
           <div className="flex-1">
             <input
               type="range"
-              min="0"
+              min={0}
               max={duration || 0}
               value={currentTime}
-              onChange={handleSeek}
+              onChange={(e) => handleSeek(parseFloat(e.target.value))}
               className="w-full h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer"
             />
             <div className="flex justify-between text-white text-xs mt-1">
@@ -94,7 +72,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl, thumbnailUrl
               <span>{formatTime(duration)}</span>
             </div>
           </div>
-        </div>
+        </Block>
       </div>
     </div>
   );

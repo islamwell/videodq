@@ -71,6 +71,8 @@ const sampleVideos = [
   }
 ];
 
+const Playlist = require('./src/models/Playlist');
+
 const seedDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/videodq');
@@ -83,6 +85,21 @@ const seedDatabase = async () => {
     // Insert sample videos
     await Video.insertMany(sampleVideos);
     console.log(`Inserted ${sampleVideos.length} sample videos`);
+
+    // Create or update Ramadan playlist (dq2024) referencing quran videos
+    const quranVideos = await Video.find({ $or: [{ tags: 'quran' }, { title: /quran/i }] });
+    const videoIds = quranVideos.map(v => v._id);
+
+    await Playlist.findOneAndUpdate(
+      { slug: 'dq2024' },
+      {
+        title: 'DQ2024 — Dura Quran 2024 (30 days)',
+        description: 'A 30-day Quran listening series for Ramadan 2024',
+        videoIds,
+        slug: 'dq2024'
+      },
+      { upsert: true, new: true }
+    );
 
     console.log('Database seeded successfully!');
     process.exit(0);

@@ -1,0 +1,6 @@
+{
+  "appId": "com.nurulquran.app",
+  "appName": "NurulQuranVideo",
+  "webDir": "out",
+  "bundledWebRuntime": false
+}

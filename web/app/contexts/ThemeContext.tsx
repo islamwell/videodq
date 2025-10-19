@@ -2,9 +2,11 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+type ThemeName = 'dark' | 'blue' | 'red' | 'green' | 'sepia' | 'light';
+
 interface ThemeContextType {
-  isDark: boolean;
-  toggleTheme: () => void;
+  theme: ThemeName;
+  setTheme: (t: ThemeName) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -18,33 +20,29 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isDark, setIsDark] = useState(false);
+  const [theme, setThemeState] = useState<ThemeName>('light');
 
   useEffect(() => {
-    const saved = localStorage.getItem('theme');
+    const saved = localStorage.getItem('vqd_theme') as ThemeName | null;
     if (saved) {
-      setIsDark(saved === 'dark');
+      setThemeState(saved);
     } else {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setIsDark(prefersDark);
+      setThemeState(prefersDark ? 'dark' : 'light');
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
+    localStorage.setItem('vqd_theme', theme);
+    // remove any previous theme classes
+    document.documentElement.classList.remove('theme-dark','theme-blue','theme-red','theme-green','theme-sepia','theme-light');
+    document.documentElement.classList.add(`theme-${theme}`);
+  }, [theme]);
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-  };
+  const setTheme = (t: ThemeName) => setThemeState(t);
 
   return (
-    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

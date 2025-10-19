@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/database');
 const videoRoutes = require('./routes/videoRoutes');
+const playlistRoutes = require('./routes/playlistRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,10 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/videos', videoRoutes);
+app.use('/api/playlists', playlistRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'VideoDQ API is running' });
+  res.json({ status: 'ok', message: 'NurulQuran Video API is running' });
 });
 
 // Error handling middleware

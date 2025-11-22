@@ -22,11 +22,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>NurulQuran Video - Islamic Educational Videos</title>
+        <title>VideoDQ - Islamic Educational Videos</title>
         <meta name="description" content="Islamic educational video platform for lectures and Islamic content" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+
+        {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#2563eb" />
-  <link rel="stylesheet" href="https://unpkg.com/framework7/framework7-bundle.min.css" />
+        <meta name="theme-color" content="#2563eb" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="VideoDQ" />
+
+        {/* Icons */}
+        <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+
+        {/* Framework7 CSS */}
+        <link rel="stylesheet" href="https://unpkg.com/framework7/framework7-bundle.min.css" />
       </head>
       <body className="antialiased">
         <QueryClientProvider client={queryClient}>
